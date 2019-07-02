@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import WSTester from '../../components/WSTester';
 
 export const App: React.FC = () => (
-  <div>Test message here</div>
+  <Fragment>
+    <div>Test message here</div>
+    <WSTester />
+  </Fragment>
 );
