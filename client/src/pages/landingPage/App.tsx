@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
-import WSTester from '../../components/WSTester';
+import LiveFootballEvents from '../../components/LiveFootballEvents';
 
 export const App: React.FC = () => (
   <Fragment>
-    <div>Test message here</div>
-    <WSTester />
+    <LiveFootballEvents />
   </Fragment>
 );
