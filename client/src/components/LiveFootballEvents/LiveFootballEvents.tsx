@@ -21,7 +21,7 @@ class LiveFootballEvents extends Component<{}, {data: any}> {
                 data: JSON.parse(e.data)
             })}
         this.w.onopen = () =>
-            this.w.send(JSON.stringify({ type: 'getLiveEvents', primaryMarkets: false }));
+            this.w.send(JSON.stringify({ type: 'getLiveEvents', primaryMarkets: true }));
     }
     componentWillUnmount() {
         this.w.close()
