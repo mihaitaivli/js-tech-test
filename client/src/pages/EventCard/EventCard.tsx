@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Container } from './EventCard.css'
+import { Container, MarketsButton } from './EventCard.css'
 import { wsEndpoint } from '../../utils/config'
 import { IEvent } from '../../models/Event';
 import Loading from '../../components/Loading/Loading'
+import Markets from '../../components/Markets/Markets'
 
 interface IEventCardProps {
     match: {
@@ -47,6 +48,12 @@ class EventCard extends Component<IEventCardProps, IState> {
         }
     }
 
+    expandMarkets = () => {
+        this.setState({
+            marketsVisible: true
+        })
+    }
+
     componentDidMount() {
         const { eventId } = this.props.match.params
         this.w.onmessage = (e:MessageEvent) => this.updateInfo(e)
@@ -78,6 +85,11 @@ class EventCard extends Component<IEventCardProps, IState> {
 
         return (
             <Container>
+                <MarketsButton
+                    onClick={this.expandMarkets}
+                >
+                    Display markets
+                </MarketsButton>
                 <div>
                     <div>{name}</div>
                     <div>{startTime}</div>
@@ -95,7 +107,7 @@ class EventCard extends Component<IEventCardProps, IState> {
                     <p>Update info to be used</p>
                     <p>{JSON.stringify(updatedFields)}</p>
                 </div>}
-                { marketsVisible && <div>Display markets in here</div>}
+                { marketsVisible && <Markets markets={markets} />}
             </Container>
         )
     }
