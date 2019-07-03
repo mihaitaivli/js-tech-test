@@ -10,20 +10,30 @@ interface IEventCardProps {
             eventId: number
         }
     }
+    location: {
+        state: {
+            event: IEvent
+        }
+    }
 }
 
 interface IState {
-    event: IEvent | null,
+    event: IEvent
     loading: boolean
+    updatedFields: any
+    marketsVisible: boolean
 }
 class EventCard extends Component<IEventCardProps, IState> {
     private w: WebSocket
     constructor(props: IEventCardProps) {
         super(props)
+        console.log({props})
         this.w = new WebSocket(wsEndpoint)
         this.state = {
-            event: null,
-            loading: true
+            event: props.location.state.event,
+            loading: true,
+            updatedFields: {},
+            marketsVisible: false
         }
     }
 
@@ -31,7 +41,7 @@ class EventCard extends Component<IEventCardProps, IState> {
         const data = JSON.parse(e.data)
         if(data && data.type === 'OUTCOME_STATUS') {
             this.setState({
-                event: JSON.parse(e.data),
+                updatedFields: JSON.parse(e.data),
                 loading: false
             })
         }
@@ -49,13 +59,43 @@ class EventCard extends Component<IEventCardProps, IState> {
     }
 
     render() {
-        const { event, loading } = this.state
+        const { event, loading, marketsVisible, updatedFields } = this.state
+        const {
+            name,
+            startTime,
+            typeName,
+            scores,
+            status: {
+                active,
+                started,
+                live,
+                resulted,
+                finished,
+                cashoutable
+            },
+            markets
+        } = event
 
         return (
             <Container>
-                <Loading />
-                {/* { loading && <Loading /> } */}
-                {/* { !loading && JSON.stringify(event)} */}
+                <div>
+                    <div>{name}</div>
+                    <div>{startTime}</div>
+                    <div>{typeName}</div>
+                    <div>{JSON.stringify(scores)}</div>
+                    <div>{active}</div>
+                    <div>{started}</div>
+                    <div>{live}</div>
+                    <div>{resulted}</div>
+                    <div>{finished}</div>
+                    <div>{cashoutable}</div>
+                </div>
+                { loading && <Loading /> }
+                { !loading && <div>
+                    <p>Update info to be used</p>
+                    <p>{JSON.stringify(updatedFields)}</p>
+                </div>}
+                { marketsVisible && <div>Display markets in here</div>}
             </Container>
         )
     }

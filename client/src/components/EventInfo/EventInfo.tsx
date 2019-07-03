@@ -18,7 +18,10 @@ const EventName: React.FC<IProps> = ({ event }) => {
                     textDecoration:'none',
                     color:'black'
                 }}
-                to={`/events/${eventId}`}
+                to={{
+                    pathname:`/events/${eventId}`,
+                    state:{ event }
+                }}
             >{displayName}</Link>
         </Container>
     )
