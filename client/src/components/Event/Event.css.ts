@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-    color: blue;
+    border: 1px solid blue;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 10px;
 `
