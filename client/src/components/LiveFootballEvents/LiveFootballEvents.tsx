@@ -3,13 +3,14 @@ import { IEvent } from '../../models/Event'
 import get from 'lodash/get'
 import Event from '../Event/Event'
 import { Container } from './LiveFootballEvents.css'
+import { wsEndpoint } from '../../utils/config'
 
 class LiveFootballEvents extends Component<{}, {data: any}> {
     private w: WebSocket
     constructor(props: any) {
         
         super(props)
-        this.w = new WebSocket('ws://localhost:8889')
+        this.w = new WebSocket(wsEndpoint)
         this.state = {
             data: null
         }
@@ -19,7 +20,8 @@ class LiveFootballEvents extends Component<{}, {data: any}> {
             this.setState({
                 data: JSON.parse(e.data)
             })}
-        this.w.onopen = () => this.w.send(JSON.stringify({ type: "getLiveEvents" }));
+        this.w.onopen = () =>
+            this.w.send(JSON.stringify({ type: 'getLiveEvents', primaryMarkets: false }));
     }
     componentWillUnmount() {
         this.w.close()
