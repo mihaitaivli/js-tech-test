@@ -1,5 +1,8 @@
-import React, { Component, Fragment } from 'react'
-import { IEvent } from '../models/Event'
+import React, { Component } from 'react'
+import { IEvent } from '../../models/Event'
+import get from 'lodash/get'
+import Event from '../Event/Event'
+import { Container } from './LiveFootballEvents.css'
 
 class LiveFootballEvents extends Component<{}, {data: any}> {
     private w: WebSocket
@@ -12,7 +15,6 @@ class LiveFootballEvents extends Component<{}, {data: any}> {
         }
     }
     componentDidMount() {
-        // const w = new WebSocket('ws://localhost:8889')
         this.w.onmessage = (e:MessageEvent) => {
             this.setState({
                 data: JSON.parse(e.data)
@@ -25,17 +27,15 @@ class LiveFootballEvents extends Component<{}, {data: any}> {
 
     render() {
         const  { data } = this.state
-        if(data) {
-            console.log(data.data)
-        }
+        
         return (
-            <Fragment>
-                {data && data.type === 'LIVE_EVENTS_DATA' && data.data.map((event: IEvent) => (
-                    <div key={event.eventId}>
-                        {event.name}
-                    </div>
-                ))}
-            </Fragment>
+            <Container>
+                {data
+                    && data.type === 'LIVE_EVENTS_DATA'
+                    && get(data, 'data', [])
+                        .map((event: IEvent) => <Event event={event} />)
+                }
+            </Container>
         )
     }
     
