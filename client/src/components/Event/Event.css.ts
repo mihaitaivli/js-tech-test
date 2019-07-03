@@ -10,5 +10,4 @@ export const Container = styled.div`
 
 export const Time = styled.p`
     background-color: lightgreen;
-
 `
