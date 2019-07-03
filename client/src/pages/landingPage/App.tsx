@@ -5,11 +5,12 @@ import { Container } from './App.css'
 import EventCard from '../EventCard/EventCard';
 import { AppStoreContext } from '../../stores/appStoreContext'
 import { OddFractionalDecimal } from '../../models/OddFractionalDecimal';
+import Header from '../../components/Header/Header'
 
 export const App: React.FC = () => (
   <Container>
     <AppStoreContext.Provider value={{oddType: OddFractionalDecimal.fractional}}>
-      <div>Header here</div>
+      <Header />
       <Router>
         <Switch>
           <Route exact path='/' render={() =>
